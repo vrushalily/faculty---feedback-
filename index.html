@@ -25,42 +25,33 @@
       padding:32px 16px 48px;
     }
 
-    /* outer card (form) */
     .form-shell{
       width:100%;
-      max-width:770px;                 /* matches GF width on desktop */
+      max-width:770px;
       background:#fff;
       border:1px solid #e6e6e6;
       border-radius:12px;
       box-shadow:0 1px 3px rgba(0,0,0,.2);
       overflow:hidden;
     }
-    /* purple strip */
     .top-strip{
       height:14px;
       background:var(--g-purple);
       border-radius:12px 12px 0 0;
     }
-
-    /* inner content spacing like GF */
     .content{ padding:28px 32px 18px 32px; }
-
     h1{
       margin:0 0 18px 0;
       font-size:34px;
       font-weight:500;
       letter-spacing:.2px;
     }
-
-    /* “card” for a question */
     .question-card{
       border:1px solid var(--g-border);
       border-radius:10px;
       padding:18px 20px 22px;
       background:#fff;
     }
-
-    /* question header row (label on left, star on right) */
     .q-head{
       display:flex;
       align-items:flex-start;
@@ -79,8 +70,6 @@
       line-height:1;
       user-select:none;
     }
-
-    /* Google Forms-like select */
     .select-wrap{ position:relative; width:100%; }
     select{
       width:100%;
@@ -99,7 +88,6 @@
       border-color:var(--g-purple);
       box-shadow:0 0 0 1px var(--g-purple) inset;
     }
-    /* caret */
     .select-wrap::after{
       content:"";
       position:absolute;
@@ -111,8 +99,6 @@
       transform:translateY(-25%);
       pointer-events:none;
     }
-
-    /* actions row: Next button left, Clear form link right */
     .actions{
       display:flex;
       justify-content:space-between;
@@ -140,8 +126,6 @@
       color:var(--g-purple);
       text-decoration:none;
     }
-
-    /* footer inside card */
     .footer{
       border-top:1px solid var(--g-border);
       background:#fafafa;
@@ -167,9 +151,12 @@
 
         <div class="select-wrap">
           <select id="department" required>
-            <option value="">Department of Computer Engineering</option>
-            <option value="comp">Department of Computer Engineering</option>
-            <option value="mech">Department of Artificial Intelligence</option>
+            <option value="">Choose a department</option>
+            <option value="comp-eng">Department of Computer Engineering</option>
+            <option value="comp-sci">Department of Computer Science</option>
+            <option value="ai">Department of Artificial Intelligence</option>
+            <option value="math-stat">Department of Mathematics and Statistics</option>
+            <option value="eng-sci">Department of Engineering Sciences</option>
           </select>
         </div>
       </div>
@@ -189,10 +176,15 @@
   <script>
     function goToForm() {
       var dept = document.getElementById("department").value;
-      if (dept === "comp") {
-        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSc863MBBxq-_87qiDIjgB519TG7q1sEYVaQ0-wB5CnaYaYTWQ/viewform?usp=header";
-      } else if (dept === "mech") {
-        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdgsCbXpWpcyM0HkrNU88ZUnnNUi2Nysb6aOrYkTLtdW4bgvA/viewform?usp=header";
+      var links = {
+        "comp-eng": "https://docs.google.com/forms/YOUR_FORM_LINK_1",
+        "comp-sci": "https://docs.google.com/forms/YOUR_FORM_LINK_2",
+        "ai": "https://docs.google.com/forms/YOUR_FORM_LINK_3",
+        "math-stat": "https://docs.google.com/forms/YOUR_FORM_LINK_4",
+        "eng-sci": "https://docs.google.com/forms/YOUR_FORM_LINK_5"
+      };
+      if (dept && links[dept]) {
+        window.location.href = links[dept];
       } else {
         alert("Please select a department.");
       }
