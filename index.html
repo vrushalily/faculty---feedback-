@@ -1,100 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Faculty Feedback - Department Selection</title>
-<style>
+  <meta charset="UTF-8">
+  <title>Faculty Feedback</title>
+  <style>
     body {
-        font-family: Roboto, Arial, sans-serif;
-        background-color: #f0f0f0;
-        display: flex;
-        justify-content: center;
-        padding: 40px;
+      font-family: Arial, sans-serif;
+      background-color: #f0ebf8;
+      display: flex;
+      justify-content: center;
+      padding: 40px;
     }
     .form-container {
-        background: white;
-        max-width: 600px;
-        width: 100%;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0px 1px 4px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 640px;
     }
-    h2 {
-        color: #202124;
-        font-weight: 400;
-        margin-bottom: 10px;
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
     }
     p {
-        color: #5f6368;
-        font-size: 14px;
-        margin-bottom: 20px;
+      color: #5f6368;
+      font-size: 14px;
+      margin-bottom: 20px;
     }
     label {
-        font-weight: 500;
-        font-size: 16px;
-        display: block;
-        margin-bottom: 10px;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 8px;
     }
     select {
-        width: 100%;
-        padding: 10px;
-        font-size: 15px;
-        border: 1px solid #dadce0;
-        border-radius: 4px;
-        outline: none;
-        margin-bottom: 20px;
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #dadce0;
+      font-size: 16px;
+      margin-bottom: 20px;
     }
     button {
-        background-color: #1a73e8;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
+      background-color: #673ab7;
+      color: white;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
     }
     button:hover {
-        background-color: #1557b0;
+      background-color: #5e35b1;
     }
-</style>
+  </style>
 </head>
 <body>
-
-<div class="form-container">
-    <h2>Faculty Feedback</h2>
-    <p>Select your department to proceed to the feedback form.</p>
+  <div class="form-container">
+    <h1>Faculty Feedback</h1>
+    <p>Please select your department to continue to the feedback form.</p>
 
     <label for="department">Department</label>
     <select id="department" required>
-        <option value="">-- Select Department --</option>
-        <option value="cs">Computer Science</option>
-        <option value="mech">Mechanical</option>
-        <option value="civil">Civil</option>
+      <option value="">Select Department</option>
+      <option value="comp">Computer Science</option>
+      <option value="mech">Mechanical</option>
     </select>
 
     <button onclick="goToForm()">Next</button>
-</div>
+  </div>
 
-<script>
+  <script>
     function goToForm() {
-        const dept = document.getElementById("department").value;
-
-        // Replace these with your actual Google Form links
-        const formLinks = {
-            cs: "https://docs.google.com/forms/d/e/1FAIpQLSc863MBBxq-_87qiDIjgB519TG7q1sEYVaQ0-wB5CnaYaYTWQ/viewform?usp=header",
-            mech: "https://docs.google.com/forms/d/e/1FAIpQLSdgsCbXpWpcyM0HkrNU88ZUnnNUi2Nysb6aOrYkTLtdW4bgvA/viewform?usp=header",
-            civil: "https://docs.google.com/forms/d/CIVIL_FORM_ID/viewform"
-        };
-
-        if (dept && formLinks[dept]) {
-            window.location.href = formLinks[dept];
-        } else {
-            alert("Please select a department.");
-        }
+      var dept = document.getElementById("department").value;
+      if (dept === "comp") {
+        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSc863MBBxq-_87qiDIjgB519TG7q1sEYVaQ0-wB5CnaYaYTWQ/viewform?usp=header";
+      } else if (dept === "mech") {
+        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdgsCbXpWpcyM0HkrNU88ZUnnNUi2Nysb6aOrYkTLtdW4bgvA/viewform?usp=header";
+      } else {
+        alert("Please select a department.");
+      }
     }
-</script>
-
+  </script>
 </body>
 </html>
 
+
+ 
+
+      
