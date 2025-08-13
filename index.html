@@ -1,25 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faculty Feedback Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        iframe {
-            border: none;
-            width: 100%;
-            height: 100vh; /* Full screen height */
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Feedback - Department Selection</title>
+<style>
+    body {
+        font-family: Roboto, Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        padding: 40px;
+    }
+    .form-container {
+        background: white;
+        max-width: 600px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+        color: #202124;
+        font-weight: 400;
+        margin-bottom: 10px;
+    }
+    p {
+        color: #5f6368;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: 500;
+        font-size: 16px;
+        display: block;
+        margin-bottom: 10px;
+    }
+    select {
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+        border: 1px solid #dadce0;
+        border-radius: 4px;
+        outline: none;
+        margin-bottom: 20px;
+    }
+    button {
+        background-color: #1a73e8;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    button:hover {
+        background-color: #1557b0;
+    }
+</style>
 </head>
 <body>
-    <h1>Faculty Feedback Form</h1>
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc863MBBxq-_87qiDIjgB519TG7q1sEYVaQ0-wB5CnaYaYTWQ/viewform?embedded=true" width="640" height="3582" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+<div class="form-container">
+    <h2>Faculty Feedback</h2>
+    <p>Select your department to proceed to the feedback form.</p>
+
+    <label for="department">Department</label>
+    <select id="department" required>
+        <option value="">-- Select Department --</option>
+        <option value="cs">Computer Science</option>
+        <option value="mech">Mechanical</option>
+        <option value="civil">Civil</option>
+    </select>
+
+    <button onclick="goToForm()">Next</button>
+</div>
+
+<script>
+    function goToForm() {
+        const dept = document.getElementById("department").value;
+
+        // Replace these with your actual Google Form links
+        const formLinks = {
+            cs: "https://docs.google.com/forms/d/e/1FAIpQLSc863MBBxq-_87qiDIjgB519TG7q1sEYVaQ0-wB5CnaYaYTWQ/viewform?usp=header",
+            mech: "https://docs.google.com/forms/d/MECH_FORM_ID/viewform",
+            civil: "https://docs.google.com/forms/d/CIVIL_FORM_ID/viewform"
+        };
+
+        if (dept && formLinks[dept]) {
+            window.location.href = formLinks[dept];
+        } else {
+            alert("Please select a department.");
+        }
+    }
+</script>
+
 </body>
 </html>
+
