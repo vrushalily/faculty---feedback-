@@ -2,10 +2,10 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Faculty Feedback</title>
+  <title>Feedback form</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Roboto, Arial, sans-serif;
       background-color: #f0ebf8;
       display: flex;
       justify-content: center;
@@ -13,38 +13,60 @@
     }
     .form-container {
       background: white;
-      padding: 24px;
       border-radius: 8px;
       box-shadow: 0px 1px 4px rgba(0,0,0,0.2);
       width: 100%;
       max-width: 640px;
+      padding: 0;
+      overflow: hidden;
+    }
+    .form-header {
+      background-color: #673ab7;
+      height: 12px;
+      width: 100%;
+    }
+    .form-body {
+      padding: 24px;
     }
     h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: 500;
     }
-    p {
-      color: #5f6368;
+    .email {
       font-size: 14px;
-      margin-bottom: 20px;
+      color: #5f6368;
+      margin-bottom: 16px;
     }
-    label {
-      font-size: 16px;
-      display: block;
-      margin-bottom: 8px;
+    .required {
+      color: red;
     }
-    select {
-      width: 100%;
-      padding: 8px;
-      border-radius: 4px;
+    .question {
       border: 1px solid #dadce0;
-      font-size: 16px;
+      border-radius: 8px;
+      padding: 16px;
       margin-bottom: 20px;
+    }
+    .question legend {
+      font-size: 16px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    label.radio {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    input[type="radio"] {
+      accent-color: #673ab7;
+      margin-right: 10px;
     }
     button {
       background-color: #673ab7;
       color: white;
-      padding: 10px 24px;
+      padding: 8px 24px;
       border: none;
       border-radius: 4px;
       font-size: 14px;
@@ -53,39 +75,55 @@
     button:hover {
       background-color: #5e35b1;
     }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #5f6368;
+      padding: 16px;
+      border-top: 1px solid #dadce0;
+    }
+    a {
+      color: #673ab7;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <div class="form-container">
-    <h1>Faculty Feedback</h1>
-    <p>Please select your department to continue to the feedback form.</p>
+    <div class="form-header"></div>
+    <div class="form-body">
+      <h1>Feedback form</h1>
+      <div class="email">vrushalinalawade108@gmail.com</div>
 
-    <label for="department">Department</label>
-    <select id="department" required>
-      <option value="">Select Department</option>
-      <option value="comp">Computer Science</option>
-      <option value="mech">Mechanical</option>
-    </select>
+      <div class="question">
+        <legend>Choose your department <span class="required">*</span></legend>
+        <label class="radio"><input type="radio" name="department" value="comp">Department of Computer Engineering</label>
+        <label class="radio"><input type="radio" name="department" value="ai">Department of Artificial Intelligence</label>
+      </div>
 
-    <button onclick="goToForm()">Next</button>
+      <button onclick="goToForm()">Next</button>
+    </div>
+    <div class="footer">
+      This content is neither created nor endorsed by Google. - <a href="#">Contact form owner</a> - 
+      <a href="#">Terms of Service</a> - <a href="#">Privacy Policy</a>
+    </div>
   </div>
 
   <script>
     function goToForm() {
-      var dept = document.getElementById("department").value;
-      if (dept === "comp") {
-        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSc863MBBxq-_87qiDIjgB519TG7q1sEYVaQ0-wB5CnaYaYTWQ/viewform?usp=header";
-      } else if (dept === "mech") {
-        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdgsCbXpWpcyM0HkrNU88ZUnnNUi2Nysb6aOrYkTLtdW4bgvA/viewform?usp=header";
-      } else {
+      var dept = document.querySelector('input[name="department"]:checked');
+      if (!dept) {
         alert("Please select a department.");
+        return;
+      }
+      if (dept.value === "comp") {
+        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSc863MBBxq-_87qiDIjgB519TG7q1sEYVaQ0-wB5CnaYaYTWQ/viewform?usp=header";
+      } else if (dept.value === "ai") {
+        window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdgsCbXpWpcyM0HkrNU88ZUnnNUi2Nysb6aOrYkTLtdW4bgvA/viewform?usp=header";
       }
     }
   </script>
 </body>
 </html>
-
-
- 
 
       
