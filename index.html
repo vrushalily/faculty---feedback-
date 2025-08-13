@@ -1,219 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Faculty Feedback</title>
-  <style>
-    :root { --pad: 14px; --radius: 14px; }
-    * { box-sizing: border-box; }
-    body { font-family: system-ui, Arial, sans-serif; margin:0; background:#0f172a; color:#e2e8f0; }
-    .wrap { max-width: 960px; margin: 0 auto; padding: clamp(16px, 3vw, 32px); }
-    h1 { font-size: clamp(22px, 4vw, 32px); margin: 0 0 16px; }
-    p { color:#cbd5e1; margin: 0 0 16px; }
-    .card { background: #111827; border: 1px solid #1f2937; border-radius: var(--radius); padding: var(--pad); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
-    .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 8px; }
-    label { display:block; font-weight:600; margin-bottom:6px; }
-    select, input, button {
-      width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #334155;
-      background:#0b1220; color:#e2e8f0; outline: none;
-    }
-    select:focus, input:focus { border-color:#60a5fa; }
-    button {
-      background: #2563eb; border: none; cursor: pointer; font-weight:700; letter-spacing:.2px;
-    }
-    button:hover { filter: brightness(1.05); }
-    .bar { display:flex; gap:10px; align-items: center; margin-top: 12px; }
-    .bar > * { flex: 1; }
-    .note { font-size: 12px; color:#94a3b8; margin-top:6px; }
-    iframe { width: 100%; height: 1700px; border: none; border-radius: var(--radius); display:none; background:#0b1220; }
-    .hidden { display:none; }
-    .error { background:#3f1d1d; border:1px solid #7f1d1d; color:#fecaca; padding:10px; border-radius:10px; margin-top:10px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100vh; /* Full screen height */
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Faculty Feedback</h1>
-    <div class="card">
-      <p>Select your Department, Year, and Division to start. The correct feedback form will load below.</p>
-      <div class="grid">
-        <div>
-          <label for="dept">Department</label>
-          <select id="dept" aria-label="Department">
-            <option value="">-- Select --</option>
-            <option value="comp">Computer Engineering</option>
-            <option value="ai">AI & Data Science</option>
-            <!-- Add more departments here -->
-          </select>
-        </div>
-        <div>
-          <label for="year">Year</label>
-          <select id="year" aria-label="Year">
-            <option value="">-- Select --</option>
-            <option value="1">First Year</option>
-            <option value="2">Second Year</option>
-            <option value="3">Third Year</option>
-            <option value="4">Final Year</option>
-          </select>
-        </div>
-        <div>
-          <label for="div">Division</label>
-          <select id="div" aria-label="Division">
-            <option value="">-- Select --</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <!-- Add more divisions if needed -->
-          </select>
-        </div>
-      </div>
-
-      <div class="bar">
-        <button id="startBtn">Start Feedback</button>
-        <button id="copyLinkBtn" title="Copy a link with your selection">Copy Link</button>
-      </div>
-      <div class="note">Tip: Share the copied link to open this page with the same selection auto-filled.</div>
-
-      <div id="err" class="error hidden">No form configured for that combination yet. Ask your admin to add it.</div>
-    </div>
-
-    <div style="height:14px"></div>
-
-    <iframe id="frame" allow="clipboard-read; clipboard-write"></iframe>
-  </div>
-
-  <script>
-    // ====== CONFIGURATION ======
-    // Replace the values below with your actual Google Forms EMBED URLs (the src from "Send -> <> Embed -> Copy")
-    // IMPORTANT: Use the 'viewform?embedded=true' URL, not the short forms.gle link.
-    const MAP = {
-      comp: {
-        "1": { A: "REPLACE_WITH_EMBED_URL_FOR_comp-Y1-A", B: "REPLACE_WITH_EMBED_URL_FOR_comp-Y1-B" },
-        "2": { A: "REPLACE_WITH_EMBED_URL_FOR_comp-Y2-A", B: "REPLACE_WITH_EMBED_URL_FOR_comp-Y2-B" },
-        "3": { A: "REPLACE_WITH_EMBED_URL_FOR_comp-Y3-A", B: "REPLACE_WITH_EMBED_URL_FOR_comp-Y3-B" },
-        "4": { A: "REPLACE_WITH_EMBED_URL_FOR_comp-Y4-A", B: "REPLACE_WITH_EMBED_URL_FOR_comp-Y4-B" }
-      },
-      ai: {
-        "1": { A: "REPLACE_WITH_EMBED_URL_FOR_ai-Y1-A", B: "REPLACE_WITH_EMBED_URL_FOR_ai-Y1-B" },
-        "2": { A: "REPLACE_WITH_EMBED_URL_FOR_ai-Y2-A", B: "REPLACE_WITH_EMBED_URL_FOR_ai-Y2-B" },
-        "3": { A: "REPLACE_WITH_EMBED_URL_FOR_ai-Y3-A", B: "REPLACE_WITH_EMBED_URL_FOR_ai-Y3-B" },
-        "4": { A: "REPLACE_WITH_EMBED_URL_FOR_ai-Y4-A", B: "REPLACE_WITH_EMBED_URL_FOR_ai-Y4-B" }
-      }
-      // Add more departments/years/divisions as needed
-    };
-
-    // Optional: If you want to carry Name/Roll No through the URL to prefill in your form,
-    // add their field IDs to PREFILL_KEYS and pass ?name=...&roll=... in this page URL.
-    // Then append to the Google Form URL (must also set those entry IDs in the form link).
-    const PREFILL_KEYS = {
-      // urlParam : "entry.1234567890"  // Example mapping
-      // name: "entry.1111111111",
-      // roll: "entry.2222222222"
-    };
-
-    const $ = (id) => document.getElementById(id);
-    const frame = $("frame");
-    const err = $("err");
-
-    function getSelected() {
-      return {
-        dept: $("dept").value,
-        year: $("year").value,
-        div: $("div").value
-      };
-    }
-
-    function findUrl({dept, year, div}, queryParams) {
-      if (!dept || !year || !div) return null;
-      try {
-        const base = MAP[dept]?.[year]?.[div];
-        if (!base) return null;
-        if (!queryParams || Object.keys(queryParams).length === 0) return base;
-        // Append prefill params (if configured)
-        const url = new URL(base);
-        for (const [qpKey, qpVal] of Object.entries(queryParams)) {
-          const entryId = PREFILL_KEYS[qpKey];
-          if (entryId && qpVal) url.searchParams.set(entryId, qpVal);
-        }
-        return url.toString();
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function parseQuery() {
-      const u = new URL(window.location.href);
-      const obj = {};
-      u.searchParams.forEach((v, k) => obj[k] = v);
-      return obj;
-    }
-
-    function setQuery(params) {
-      const u = new URL(window.location.href);
-      Object.entries(params).forEach(([k, v]) => {
-        if (v) u.searchParams.set(k, v); else u.searchParams.delete(k);
-      });
-      history.replaceState({}, "", u.toString());
-    }
-
-    function loadFromSelection(auto = false) {
-      const q = parseQuery();
-      const sel = {
-        dept: q.dept || $("dept").value,
-        year: q.year || $("year").value,
-        div:  q.div  || $("div").value
-      };
-      // Reflect into UI if came from query
-      if (q.dept) $("dept").value = q.dept;
-      if (q.year) $("year").value = q.year;
-      if (q.div)  $("div").value  = q.div;
-
-      const prefill = {};
-      // Collect any extra params (name, roll, email) if PREFILL_KEYS configured
-      Object.keys(PREFILL_KEYS).forEach(k => { if (q[k]) prefill[k] = q[k]; });
-
-      const url = findUrl(sel, prefill);
-      if (!url) {
-        err.classList.remove("hidden");
-        frame.style.display = "none";
-        return;
-      }
-      err.classList.add("hidden");
-      frame.src = url;
-      frame.style.display = "block";
-
-      // Keep selection in URL (for sharing)
-      setQuery({ dept: sel.dept, year: sel.year, div: sel.div, ...prefill });
-
-      // Optionally, scroll to iframe when auto-loading on mobile
-      if (auto) setTimeout(() => frame.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
-    }
-
-    $("startBtn").addEventListener("click", () => loadFromSelection(false));
-    $("copyLinkBtn").addEventListener("click", () => {
-      const q = parseQuery();
-      // Ensure current selects are represented
-      const sel = getSelected();
-      const merged = { ...q, ...sel };
-      const u = new URL(window.location.href);
-      u.search = "";
-      const sp = new URLSearchParams();
-      Object.entries(merged).forEach(([k, v]) => { if (v) sp.set(k, v); });
-      const link = u.toString() + (sp.toString() ? ("?" + sp.toString()) : "");
-      navigator.clipboard.writeText(link).then(() => {
-        alert("Link copied!");
-      }, () => {
-        prompt("Copy this link:", link);
-      });
-    });
-
-    // Auto-load if dept/year/div in URL
-    window.addEventListener("DOMContentLoaded", () => {
-      const q = parseQuery();
-      if (q.dept && q.year && q.div) {
-        loadFromSelection(true);
-      }
-    });
-  </script>
+    <h1>Faculty Feedback Form</h1>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc863MBBxq-_87qiDIjgB519TG7q1sEYVaQ0-wB5CnaYaYTWQ/viewform?embedded=true" width="640" height="3582" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 </body>
 </html>
